@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <div id="container2"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class App extends React.Component {
+                render(){
+                    console.log(this);
+                    return (
+                        <div>
+                            {
+                                this.props.person.map((value,index)=>{
+                                    return <Welcome key={value} name={value}/>
+                                })
+                            }
+                        </div>
+                    )
+                }
+            }
+            function Welcome(props) {
+                return <h1>Welcome:{props.name}</h1>
+            }
+            let person = ['adlun','sam','jsck'];
+            // 组件外数据向组件内传值
+            ReactDOM.render(<App person={person}/>,document.getElementById('container'));
+        </script>
+
+        
+    </body>
+</html>

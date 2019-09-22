@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <div id="container2"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class Person extends React.Component {
+                render(){
+                    console.log(this);
+                    return (
+                        <ul>
+                            <li>name:{this.props.name}</li>
+                            <li>age:{this.props.age}</li>
+                            <li>sex:{this.props.sex}</li>
+                        </ul>
+                    )
+                }
+            }
+            let person = {username:'sam',age:12,sex:'male'};
+            // 组件外数据向组件内传值
+            ReactDOM.render(<Person name={person.username} age={person.age} sex={person.sex}/>,document.getElementById('container'));
+            
+            class Person2 extends React.Component {
+                render(){
+                    console.log(this);
+                    return (
+                        <ul>
+                            <li>name:{this.props.name}</li>
+                            <li>age:{this.props.age}</li>
+                            <li>sex:{this.props.sex}</li>
+                        </ul>
+                    )
+                }
+            }
+            Person2.defaultProps={
+                name:'jack'
+            }
+            ReactDOM.render(<Person2 />,document.getElementById('container2'));
+        </script>
+
+        
+    </body>
+</html>

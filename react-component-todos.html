@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class App extends React.Component {
+                constructor(props) {
+                    super(props);
+                    // 初始化state
+                    this.state = {
+                        todos : ['吃饭','睡觉','打豆豆'],
+                        length : 3
+                    }
+                    // 自定义函数this为空，将当前组件实例绑定到自定义函数
+                    this.handleClick = this.handleClick.bind(this);
+                }
+                render(){
+                    return (
+                        <div>
+                            <h1>Simple todo list</h1>
+                            <input type="text" ref="todo" /><button onClick={this.handleClick}>Add #{this.state.length}</button>
+                            <Todos todos={this.state.todos} />
+                        </div>
+                    )
+                }
+                handleClick() {
+                    // 修改state
+                    let todo = this.refs.todo;
+                    var todos = this.state.todos;
+                    var length = todos.unshift(todo.value);
+                    this.setState({
+                        todos : todos,
+                        length : length
+                    })
+                    todo.value = '';
+                }
+            }
+            function Todos(props) {
+                return (
+                    <ul>
+                        {
+                            props.todos.map((value,index)=>{
+                                return <li key={index}>{value}</li>
+                            })
+                        }
+                    </ul>
+                )
+            }
+            ReactDOM.render(<App />,document.getElementById('container'));
+        </script>
+
+        
+    </body>
+</html>

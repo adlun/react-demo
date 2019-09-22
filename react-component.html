@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <div id="container2"></div>
+        <script type="text/babel">
+            // 使用工厂方法创建虚拟dom 
+            function MyComponent(){
+                return <h1>hello</h1>
+            }
+            // ES6语法，创建虚拟dom
+            class MyComponent1 extends React.Component {
+                render(){
+                    return <h2>react</h2>
+                }
+            }
+            ReactDOM.render(<MyComponent />,document.getElementById('container'));
+            ReactDOM.render(<MyComponent1 />,document.getElementById('container2'));
+        </script>
+
+        
+    </body>
+</html>

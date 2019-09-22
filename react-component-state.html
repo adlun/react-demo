@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class InputComponent extends React.Component {
+                constructor(props) {
+                    super(props);
+                    // 初始化state
+                    this.state = {
+                        isLike : true
+                    }
+                    // 自定义函数this为空，将当前组件实例绑定到自定义函数
+                    this.handleClick = this.handleClick.bind(this);
+                }
+                render(){
+                    let {isLike} = this.state;
+                    var msg = isLike ? '我喜欢林青霞' : '林青霞喜欢我';
+                    return (
+                        <div>
+                            <h1 onClick={this.handleClick}>{msg}</h1>
+                        </div>
+                    )
+                }
+                handleClick() {
+                    // 修改state
+                    this.setState({
+                        isLike : !this.state.isLike
+                    })
+                }
+            }
+            ReactDOM.render(<InputComponent />,document.getElementById('container'));
+        </script>
+
+        
+    </body>
+</html>
