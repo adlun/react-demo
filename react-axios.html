@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+        <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class Todos extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        todos : []
+                    };
+                }
+
+                componentDidMount() {
+                    axios.get(this.props.source).then((res)=>{
+                        console.log(Object.prototype.toString.apply(res.data))
+                        console.log('res', res.data)
+                        this.setState({
+                            todos : res.data
+                        })
+                    }).catch((err)=>{
+                        console.log(err.status);
+                    })
+                }
+
+                render(){
+                    const temperature = this.state.temperature;
+                    return <fieldset>
+                        <legend>Todo List</legend>
+                        <ul>
+                        {
+                            this.state.todos.map((item,index)=>{
+                                if(item.completed){
+                                    return <li key={index} style={{textDecoration:"line-through"}}><input readOnly type="checkbox" checked={item.completed} />{item.title}</li>
+                                }else{
+                                    return <li key={index} style={{color:"#F47983"}}><input readOnly type="checkbox" checked={item.completed} />{item.title}</li>
+                                }
+                            })
+                        }
+                        </ul>
+                    </fieldset>
+                }
+            }
+            ReactDOM.render(<Todos source="https://jsonplaceholder.typicode.com/todos"/>,document.getElementById('container'));
+        </script>
+
+        
+    </body>
+</html>

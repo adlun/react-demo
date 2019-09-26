@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <script src="./js/react.development.js"></script>
+        <script src="./js/react-dom.development.js"></script>
+        <!-- 生产环境中不建议使用 -->
+        <script src="./js/babel.min.js"></script>
+        <script src="https://cdn.bootcss.com/axios/0.19.0/axios.js"></script>
+    </head>
+    <body>        
+        <div id="container"></div>
+        <script type="text/babel">
+            // ES6语法，创建虚拟dom
+            class Calculator extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.state = {
+                        temperature : '0'
+                    };
+                    this.handleChange = this.handleChange.bind(this);
+                }
+
+                handleChange(temperature){
+                    this.setState({
+                        temperature : temperature
+                    });
+                }
+
+                componentDidMount() {
+                    axios.get(this.props.source).then((res)=>{
+                        console.log(Object.prototype.toString.apply(res.data))
+                        console.log('res', res.data)
+                        this.setState({
+                            todos : res.data
+                        })
+                    }).catch((err)=>{
+                        console.log(err.status);
+                    })
+                }
+
+                render(){
+                    const temperature = this.state.temperature;
+                    return <fieldset>
+                        <legend>Enter temperature</legend>
+                        <Input temperature={temperature} onTemperatureChange={this.handleChange}/>
+                        <Input temperature={temperature} onTemperatureChange={this.handleChange}/>
+                    </fieldset>
+                }
+            }
+
+            class Input extends React.Component{
+                constructor(props){
+                    super(props);
+                    this.handleChange = this.handleChange.bind(this);
+                }
+
+                handleChange(event){
+                    // 调用父组件方法将数值上传
+                    this.props.onTemperatureChange(event.target.value);
+                }
+
+                render() {
+                    return (
+                        <div>
+                            <input type="text" value={this.props.temperature} onChange={this.handleChange}/>
+                        </div>
+                    )
+                }
+            }
+            ReactDOM.render(<Calculator/>,document.getElementById('container'));
+        </script>
+
+        
+    </body>
+</html>
